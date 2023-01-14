@@ -6,15 +6,19 @@ public class SingletonClientCommandList {
 	private volatile static SingletonClientCommandList singleton;
 	public ArrayList<Command> cmdList;
 	
-	private SingletonClientCommandList() {
+	private SingletonClientCommandList(String a) {
 		cmdList = new ArrayList<Command>();
-		//cmdList.add(new Broadcast());
+		if(a.equals("a")) {
+			
+		}else {
+			
+		}
 	}
-	public static SingletonClientCommandList getInstance() {
+	public static SingletonClientCommandList getInstance(String a) {
 		if(singleton==null) {
 			synchronized(SingletonClientCommandList.class) {
 				if(singleton==null) {
-					singleton = new SingletonClientCommandList();
+					singleton = new SingletonClientCommandList(a);
 				}
 				return singleton;
 			}

@@ -4,11 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.BufferedReader;
-import java.io.PrintWriter;
-import java.net.InetSocketAddress;
-import java.nio.channels.SocketChannel;
-import java.util.concurrent.ExecutorService;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,45 +13,32 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import clientserver.NetworkSetup;
-import clientserver.SingletonNetwork;
-import clientserver.SingletonUserFrame;
 import colorscheme.ClientColorScheme;
 import colorscheme.WhiteBlackClientColorScheme;
-import shell.ClientShell;
 import shell.Shell;
 import userlist.ClientUserInput;
 import userlist.UserFrame;
 import userlist.UserInput;
-import userlist.UserType;
 
 public abstract class AbstractGUISetup implements GUISetup{
-	protected NetworkSetup networkSetup;
 	protected JFrame frame;
 	protected ClientColorScheme colorScheme;
 	protected JTextField textField;
 	protected JTextArea textArea;
 	protected JButton sendButton;
 	protected JButton connectButton;
-	protected UserFrame userFrame;
 	protected UserInput userInput;
-	protected Shell shell;
 	
 	
-	public AbstractGUISetup(UserFrame userFrame,NetworkSetup networkSetup){
-		this.networkSetup = networkSetup;
-		this.userFrame = userFrame;
+	public AbstractGUISetup(){
 		this.userInput = new ClientUserInput();
-		this.shell = new ClientShell();
 	}
-	public AbstractGUISetup(UserFrame userFrame, NetworkSetup networkSetup, ClientColorScheme a){
-		this.networkSetup = networkSetup();
-		this.userFrame = userFrame;
+	public AbstractGUISetup(ClientColorScheme a){
 		this.colorScheme = a;
 		this.userInput = new ClientUserInput();
-		this.shell = new ClientShell();
 	}
 	
-	protected void sendMessage() {
+	protected void sendMessage(UserFrame userFrame,NetworkSetup networkSetup, Shell shell) {
 		if(hasSemiColon(textField.getText())){
 			semiColonError();
 			return;
@@ -90,7 +72,7 @@ public abstract class AbstractGUISetup implements GUISetup{
 		return false;
 	}
 	
-	public void paint() {
+	public void paint(UserFrame userFrame, NetworkSetup networkSetup, Shell shell) {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(600,450);
@@ -105,7 +87,7 @@ public abstract class AbstractGUISetup implements GUISetup{
 
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					sendMessage();
+					sendMessage(userFrame,networkSetup, shell);
 				}
 				if(e.getKeyCode() == KeyEvent.VK_SEMICOLON) {
 					semiColonError();
@@ -122,22 +104,7 @@ public abstract class AbstractGUISetup implements GUISetup{
 		JScrollPane scroll = new JScrollPane(textArea);
 		textArea.setEditable(false);
 		sendButton = new JButton();
-		sendButton.addActionListener(e -> sendMessage());
-		sendButton.addKeyListener(new KeyListener() {
-			public void keyTyped(KeyEvent e) {
-			}
-
-			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					sendMessage();
-				}
-			}
-
-			public void keyReleased(KeyEvent e) {
-				
-			}
-			
-		});
+		sendButton.addActionListener(e -> sendMessage(userFrame,networkSetup, shell));
 		textField.setBackground(colorScheme.chatBoxBackgroundColor());
 		textField.setForeground(colorScheme.chatBoxForegroundColor());
 		textArea.setBackground(colorScheme.messageBoxBackgroundColor());
@@ -149,7 +116,7 @@ public abstract class AbstractGUISetup implements GUISetup{
 		sendButton.setPreferredSize(new Dimension(40,40));
 		sendButton.setText("Send Message");
 		connectButton.setText("Connect");
-		connectButton.addActionListener(e -> networkSetup.go());
+		connectButton.addActionListener(e -> networkSetup.go(userFrame, this));
 		connectButton.setPreferredSize(new Dimension(10,40));
 		frame.add(BorderLayout.CENTER, scroll);
 		frame.add(BorderLayout.NORTH, textField);
@@ -158,14 +125,8 @@ public abstract class AbstractGUISetup implements GUISetup{
 		frame.setVisible(true);
 	}
 	
-	public void go() {
-		paint();
-	}
-	public NetworkSetup networkSetup() {
-		return networkSetup;
-	}
-	public void setNetworkSetup(NetworkSetup a) {
-		this.networkSetup = a;
+	public void go(UserFrame userFrame, NetworkSetup networkSetup, Shell shell) {
+		paint(userFrame, networkSetup, shell);
 	}
 	public JFrame frame() {
 		return frame;
@@ -188,12 +149,6 @@ public abstract class AbstractGUISetup implements GUISetup{
 
 	public JButton connectButton() {
 		return connectButton;
-	}
-	public UserFrame userFrame() {
-		return userFrame;
-	}
-	public Shell shell() {
-		return this.shell;
 	}
 	public UserInput userInput() {
 		return this.userInput;

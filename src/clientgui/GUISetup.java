@@ -12,16 +12,13 @@ import userlist.UserFrame;
 import userlist.UserInput;
 
 public interface GUISetup {
-	NetworkSetup networkSetup();
-	void setNetworkSetup(NetworkSetup a);
 	JFrame frame();
 	ClientColorScheme colorScheme();
 	JTextField textField();
 	JTextArea textArea();
 	JButton sendButton();
 	JButton connectButton();
-	UserFrame userFrame();
 	UserInput userInput();
-	Shell shell();
-	void go();
+	void paint(UserFrame userFrame, NetworkSetup networkSetup, Shell shell);
+	void go(UserFrame userFrame, NetworkSetup networkSetup, Shell shell);
 }

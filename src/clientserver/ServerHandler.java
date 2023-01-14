@@ -8,7 +8,7 @@ import clientgui.GUISetup;
 public class ServerHandler extends AbstractServer{
 
 	public ServerHandler(SocketChannel a, GUISetup guiSetup) {
-		super(a,guiSetup);
+		super(a, guiSetup);
 	}
 
 	public void run() {

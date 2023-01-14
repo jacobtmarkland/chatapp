@@ -1,0 +1,1 @@
+[] - Fix go methods in GUISetup, and Network setup. Need more flexible designs. Instead of adding UserFrame, GUISetup, NetworkSetup to each other's composition in the contrustors, use each of them as a parameter in the template method. This should make singleton's less of a headache.

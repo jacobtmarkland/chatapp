@@ -41,5 +41,8 @@ public abstract class AbstractServer implements Server{
 	public BufferedReader reader() {
 		return reader;
 	}
+	public GUISetup guiSetup() {
+		return this.guiSetup;
+	}
 
 }
