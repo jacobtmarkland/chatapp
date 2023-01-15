@@ -1,5 +1,7 @@
 package clientgui;
 
+import java.util.HashMap;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
@@ -12,13 +14,7 @@ import userlist.UserFrame;
 import userlist.UserInput;
 
 public interface GUISetup {
-	JFrame frame();
-	ClientColorScheme colorScheme();
-	JTextField textField();
-	JTextArea textArea();
-	JButton sendButton();
-	JButton connectButton();
-	UserInput userInput();
 	void paint(UserFrame userFrame, NetworkSetup networkSetup, Shell shell);
 	void go(UserFrame userFrame, NetworkSetup networkSetup, Shell shell);
+	HashMap<String, Object> map();
 }

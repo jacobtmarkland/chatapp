@@ -2,6 +2,10 @@ package shell;
 
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 import clientcommand.ChangeClientColorCommand;
 import clientcommand.ChangeNetworkButtonColorCommand;
 import clientcommand.ChangeSendButtonColorCommand;
@@ -14,14 +18,24 @@ public class SingletonClientCommandList {
 	public ArrayList<Command> cmdList;
 	
 	private SingletonClientCommandList(String a) {
-		cmdList = new ArrayList<Command>();
-		cmdList.add(new ChangeTextFieldColorCommand(SingletonGUI.getInstance().guiSetup.textField()));
-		cmdList.add(new ChangeTextAreaColorCommand(SingletonGUI.getInstance().guiSetup.textArea()));
-		cmdList.add(new ChangeSendButtonColorCommand(SingletonGUI.getInstance().guiSetup.sendButton()));
-		cmdList.add(new ChangeNetworkButtonColorCommand(SingletonGUI.getInstance().guiSetup.connectButton()));
-		cmdList.add(new ChangeClientColorCommand(SingletonGUI.getInstance().guiSetup.textArea(), SingletonGUI.getInstance().guiSetup.textField(), SingletonGUI.getInstance().guiSetup.sendButton(), SingletonGUI.getInstance().guiSetup.connectButton()));
-		if(a.equals("a")) {
-			
+		try {
+				JTextField textField = (JTextField)SingletonGUI.getInstance().guiSetup.map().get("textField");
+				JTextArea textArea = (JTextArea)SingletonGUI.getInstance().guiSetup.map().get("textArea");
+				JButton sendButton = (JButton)SingletonGUI.getInstance().guiSetup.map().get("sendButton");
+				JButton networkButton = (JButton)SingletonGUI.getInstance().guiSetup.map().get("networkButton");
+				
+				cmdList = new ArrayList<Command>();
+				cmdList.add(new ChangeTextFieldColorCommand(textField));
+				cmdList.add(new ChangeTextAreaColorCommand(textArea));
+				cmdList.add(new ChangeSendButtonColorCommand(sendButton));
+				cmdList.add(new ChangeNetworkButtonColorCommand(networkButton));
+				cmdList.add(new ChangeClientColorCommand(textArea,textField,sendButton,networkButton));
+				if(a.equals("a")) {
+					
+				}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	public static SingletonClientCommandList getInstance(String a) {

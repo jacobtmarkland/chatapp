@@ -1,38 +1,37 @@
 package client;
 
+import java.util.HashMap;
+
 import clientgui.GUISetup;
 import clientserver.NetworkSetup;
 import shell.Shell;
 import userlist.UserFrame;
 
 public abstract class AbstractClient implements Client{
-	protected GUISetup guiSetup;
-	protected NetworkSetup networkSetup;
-	protected UserFrame userFrame;
-	protected Shell shell;
+	protected HashMap<String,Object> map;
 	
 	public AbstractClient(GUISetup guiSetup,NetworkSetup networkSetup, UserFrame userFrame, Shell shell) {
-		this.guiSetup = guiSetup;
-		this.networkSetup = networkSetup;
-		this.userFrame = userFrame;
-		this.shell = shell;
+		map = new HashMap<String, Object>();
+		map.put("guiSetup", guiSetup);
+		map.put("networkSetup", networkSetup);
+		map.put("userFrame", userFrame);
+		map.put("shell", shell);
 	}
 	
 	public void go() {
-		guiSetup.go(userFrame, networkSetup, shell);
-		networkSetup.go(userFrame, guiSetup);
+		try {
+			GUISetup guiSetup = (GUISetup)map.get("guiSetup");
+			UserFrame userFrame = (UserFrame)map.get("userFrame");
+			NetworkSetup networkSetup = (NetworkSetup)map.get("networkSetup");
+			Shell shell = (Shell)map.get("shell");
+			guiSetup.go(userFrame, networkSetup, shell);
+			networkSetup.go(userFrame, guiSetup);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
-	public GUISetup guiSetup() {
-		return this.guiSetup;
-	}
-	public NetworkSetup networkSetup() {
-		return this.networkSetup;
-	}
-	public UserFrame userFrame() {
-		return this.userFrame;
-	}
-	public Shell shell() {
-		return shell;
+	public HashMap<String,Object> map(){
+		return map;
 	}
 	
 	

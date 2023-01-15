@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.nio.channels.Channels;
 import java.nio.channels.SocketChannel;
 
+import java.util.HashMap;
+
 import clientgui.GUISetup;
 import userlist.UserFrame;
 
@@ -12,43 +14,31 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public abstract class AbstractServer implements Server{
 	
-	protected SocketChannel socket;
-	protected PrintWriter writer;
-	protected BufferedReader reader;
-	protected GUISetup guiSetup;
-	protected UserFrame userFrame;
+	protected HashMap<String, Object> map;
 	
 	public AbstractServer(SocketChannel a, GUISetup guiSetup, UserFrame userFrame) {
-		this.socket =a;
-		this.guiSetup = guiSetup;
-		this.userFrame = userFrame;
-		writer = new PrintWriter(Channels.newWriter(socket, UTF_8));
-		reader = new BufferedReader(Channels.newReader(socket, UTF_8));
+		map = new HashMap<String, Object>();
+		map.put("socket", a);
+		map.put("guiSetup", guiSetup);
+		map.put("userFrame", userFrame);
+		map.put("writer", new PrintWriter(Channels.newWriter(a, UTF_8)));
+		map.put("reader", new BufferedReader(Channels.newReader(a, UTF_8)));
 	}
 	
 	public abstract void run();
 	
 	public void sendMessage(String a) {
-		writer.println(a);
-		writer.flush();
+		try {
+			PrintWriter writer = (PrintWriter) map.get("writer");
+			writer.println(a);
+			writer.flush();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public SocketChannel socket() {
-		return socket;
-	}
-
-	public PrintWriter writer() {
-		return writer;
-	}
-
-	public BufferedReader reader() {
-		return reader;
-	}
-	public GUISetup guiSetup() {
-		return this.guiSetup;
-	}
-	public UserFrame userFrame() {
-		return userFrame;
+	public HashMap<String, Object> map(){
+		return map;
 	}
 
 }

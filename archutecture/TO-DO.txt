@@ -1,4 +1,1 @@
-[] - Fix help in abstract command, fix the shell formatting within commands. 
-[] - Add a way for the client to execute commands on the GUI
-[] - Add change textField fb color command, change textArea fb color command, change sendButton fb command, change networking button fb command, change client color fb command
-[] - create normal commandList
+[] - Store composition, using hashmap on unit classes
