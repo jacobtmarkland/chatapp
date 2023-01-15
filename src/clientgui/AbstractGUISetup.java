@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,11 +32,21 @@ public abstract class AbstractGUISetup implements GUISetup{
 	
 	
 	public AbstractGUISetup(){
+		frame = new JFrame();
 		this.userInput = new ClientUserInput();
+		textField = new JTextField(10);
+		textArea = new JTextArea(10,10);
+		sendButton = new JButton();
+		connectButton = new JButton();
 	}
 	public AbstractGUISetup(ClientColorScheme a){
+		frame = new JFrame();
 		this.colorScheme = a;
 		this.userInput = new ClientUserInput();
+		textField = new JTextField(10);
+		textArea = new JTextArea(10,10);
+		sendButton = new JButton();
+		connectButton = new JButton();
 	}
 	
 	protected void sendMessage(UserFrame userFrame,NetworkSetup networkSetup, Shell shell) {
@@ -46,15 +57,15 @@ public abstract class AbstractGUISetup implements GUISetup{
 			userInput.readLine(textField.getText());
 			if(userInput.isUserInput()) {
 				networkSetup.sendMessage("/broadcast;-e;("+userFrame.id().name() + " " +userFrame.id().id() + ":"+textField.getText()+")");
+				textField.setText("");
 				return;
 			}else {
-				shell.readLine(userInput.currLine());
+				shell.readLine(userInput.getCommand());
 				String exec = shell.executeCmd();
 				String text = textArea.getText();
 				text+="\n";
 				text+=exec;
 				textArea.setText(text);
-				return;
 			}
 		}
 	}
@@ -73,14 +84,12 @@ public abstract class AbstractGUISetup implements GUISetup{
 	}
 	
 	public void paint(UserFrame userFrame, NetworkSetup networkSetup, Shell shell) {
-		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(600,450);
 		String name = JOptionPane.showInputDialog("Enter your name: ");
 		userFrame.id().setName(name);
 		frame.setTitle("Client: "+ name +" - Chat Room");
 		colorScheme = new WhiteBlackClientColorScheme();
-		textField = new JTextField(10);
 		textField.addKeyListener(new KeyListener() {
 			public void keyTyped(KeyEvent e) {
 			}
@@ -99,11 +108,8 @@ public abstract class AbstractGUISetup implements GUISetup{
 			}
 			
 		});
-		textArea = new JTextArea(10,10);
-		connectButton = new JButton();
 		JScrollPane scroll = new JScrollPane(textArea);
 		textArea.setEditable(false);
-		sendButton = new JButton();
 		sendButton.addActionListener(e -> sendMessage(userFrame,networkSetup, shell));
 		textField.setBackground(colorScheme.chatBoxBackgroundColor());
 		textField.setForeground(colorScheme.chatBoxForegroundColor());
@@ -117,7 +123,7 @@ public abstract class AbstractGUISetup implements GUISetup{
 		sendButton.setText("Send Message");
 		connectButton.setText("Connect");
 		connectButton.addActionListener(e -> networkSetup.go(userFrame, this));
-		connectButton.setPreferredSize(new Dimension(10,40));
+		connectButton.setPreferredSize(new Dimension(40,160));
 		frame.add(BorderLayout.CENTER, scroll);
 		frame.add(BorderLayout.NORTH, textField);
 		frame.add(BorderLayout.SOUTH, sendButton);

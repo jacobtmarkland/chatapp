@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.nio.channels.SocketChannel;
 
 import clientgui.GUISetup;
+import userlist.UserFrame;
 
 public class ServerHandler extends AbstractServer{
 
-	public ServerHandler(SocketChannel a, GUISetup guiSetup) {
-		super(a, guiSetup);
+	public ServerHandler(SocketChannel a, GUISetup guiSetup,UserFrame userFrame) {
+		super(a, guiSetup, userFrame);
 	}
 
 	public void run() {
@@ -17,13 +18,11 @@ public class ServerHandler extends AbstractServer{
 		try {
 			while((message=super.reader.readLine())!=null) {
 				if(first==false) {
-					System.out.println(message);
 					String a = guiSetup.textArea().getText();
 					a+="\n";
 					a+=message;
 					guiSetup.textArea().setText(a);
 				}else {
-					message = super.reader.readLine();
 					message = super.reader.readLine();
 					String id = "";
 					for(int i = 0; i < message.length()-2;i++) {
@@ -40,9 +39,8 @@ public class ServerHandler extends AbstractServer{
 						}
 					}
 					Integer idva = Integer.valueOf(id);
-					SingletonUserFrame.getInstance("r").userFrame.id().setId(idva);//should not matter as long as it does not start as null
+					userFrame.id().setId(idva);
 					first = false;
-					super.reader.readLine();
 					super.reader.readLine();
 				}
 			}

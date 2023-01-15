@@ -6,6 +6,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.SocketChannel;
 
 import clientgui.GUISetup;
+import userlist.UserFrame;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -15,10 +16,12 @@ public abstract class AbstractServer implements Server{
 	protected PrintWriter writer;
 	protected BufferedReader reader;
 	protected GUISetup guiSetup;
+	protected UserFrame userFrame;
 	
-	public AbstractServer(SocketChannel a, GUISetup guiSetup) {
+	public AbstractServer(SocketChannel a, GUISetup guiSetup, UserFrame userFrame) {
 		this.socket =a;
 		this.guiSetup = guiSetup;
+		this.userFrame = userFrame;
 		writer = new PrintWriter(Channels.newWriter(socket, UTF_8));
 		reader = new BufferedReader(Channels.newReader(socket, UTF_8));
 	}
@@ -43,6 +46,9 @@ public abstract class AbstractServer implements Server{
 	}
 	public GUISetup guiSetup() {
 		return this.guiSetup;
+	}
+	public UserFrame userFrame() {
+		return userFrame;
 	}
 
 }

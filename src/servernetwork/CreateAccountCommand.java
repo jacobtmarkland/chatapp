@@ -46,7 +46,7 @@ public class CreateAccountCommand extends AbstractCommand{
 				if(user!=null) {
 					return super.success+"\nUser made: "+ user.userFrame().id().toString()+"\n" + super.success;
 				}else {
-					return super.fail;
+					return super.fail + "\nUser was not made: "+user.userFrame().id().toString() + super.fail;
 				}
 			}
 			if(a.keyCode().equals(this.options.get(1).keyCode())) {
@@ -59,7 +59,7 @@ public class CreateAccountCommand extends AbstractCommand{
 				if(user!=null) {
 					return super.success+"\nUser made: "+ user.userFrame().id().toString()+"\n" + super.success;
 				}else {
-					return super.fail;
+					return super.fail + "\nUser was not made: "+user.userFrame().id().toString() + super.fail;
 				}
 			}
 		}
@@ -72,7 +72,7 @@ public class CreateAccountCommand extends AbstractCommand{
 		if(user!=null) {
 			return super.success+"\nUser made: "+ user.userFrame().id().toString()+"\n" + super.success;
 		}else {
-			return super.fail;
+			return super.fail + "\nUser was not made: "+user.userFrame().id().toString() + super.fail;
 		}
 	}
 

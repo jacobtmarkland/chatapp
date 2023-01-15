@@ -1,8 +1,10 @@
 package colorscheme;
 
 import java.awt.Color;
+import java.util.HashMap;
 
 public interface ColorPalette {
+	HashMap<String,Color> colorMap();
 	Color red();
 	Color green();
 	Color blue();

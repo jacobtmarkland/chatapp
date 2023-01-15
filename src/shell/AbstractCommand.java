@@ -9,18 +9,18 @@ public abstract class AbstractCommand implements Command{
 	protected String help;
 	protected ArrayList<Option> options;
 	protected ArrayList<Parameter> parameters;
-	public static final String formatBar = "###############Shell 1.0###############\n";
-	public static final String invalidCommand = "###############invalid Command###############\n";
-	public static final String invalidParameter = "###############invalid Paramater###############\n";
-	public static final String invalidOption = "###############invalid Option###############\n";
-	public static final String success = "###############success###############\n";
-	public static final String fail = "###############fail###############\n";
+	public static final String formatBar = "###############Shell 1.0###############";
+	public static final String invalidCommand = "###############invalid Command###############";
+	public static final String invalidParameter = "###############invalid Paramater###############";
+	public static final String invalidOption = "###############invalid Option###############";
+	public static final String success = "###############success###############";
+	public static final String fail = "###############fail###############";
 	public AbstractCommand(String name, String keyCode) {
 		this.name = name;
 		this.keyCode = keyCode;
 		this.options = new ArrayList<Option>();
 		this.parameters = new ArrayList<Parameter>();
-		help = help();
+		help = null;
 	}
 
 	public String name() {
@@ -43,21 +43,21 @@ public abstract class AbstractCommand implements Command{
 
 	public String help() {
 		if(help!=null)return help;
-		help = "Syntax:"+name+" [options] [parameters]\n";
+		help=formatBar+"\n";
+		help += "Syntax: /"+keyCode+" [options] [parameters]\n";
 		help += "Syntax2: [options] ex. -o1 -o2\n";
-		help += "Syntax3: [parameters] ex. p1 p2\n";
-		help+=formatBar;
+		help += "Syntax3: [parameters] ex. (p1) (p2)\n";
+		help+=formatBar+"\n";
 		help+="Options:\n";
 		for(Option op:options) {
 			help+=op.toString()+"\n";
 		}
-		help+=formatBar;
-		help+=formatBar;
+		help+=formatBar+"\n";
 		help+="Parameters:\n";
 		for(Parameter para:parameters) {
 			help+=para.toString()+"\n";
 		}
-		help+=formatBar;
+		help+=formatBar+"\n";
 		return help;
 		
 	}

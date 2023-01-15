@@ -23,7 +23,7 @@ public class Broadcast extends AbstractCommand{
 			return super.invalidOption+"\nYou can only choose one communication type\n"+super.invalidOption;
 		}
 		if(parameters.size()!=1) {
-			return super.invalidParameter+"\nYou have to have a single name parameter with no spaces\n"+super.invalidParameter;
+			return super.invalidParameter+"\nYou have to have one parameter\n"+super.invalidParameter;
 		}
 		for(Option a:options) {
 			if(a.keyCode().equals(this.options.get(0).keyCode())) {
@@ -35,7 +35,7 @@ public class Broadcast extends AbstractCommand{
 			broadcaster.sendAll(parameters.get(0).value());
 			return super.success+"\nMessage broadcasted: " + parameters.get(0).value() + "\n"+super.success;
 		}
-		return super.fail;
+		return super.fail+"\nMessage did not get broadcasted: " + parameters.get(0).value() + "\n"+super.fail;
 		
 	}
 

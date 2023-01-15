@@ -1,8 +1,10 @@
 package colorscheme;
 
 import java.awt.Color;
+import java.util.HashMap;
 
 public class AbstractColorPalette implements ColorPalette{
+	protected HashMap<String, Color> colorMap;
 	protected Color red;
 	protected Color green;
 	protected Color blue;
@@ -19,6 +21,7 @@ public class AbstractColorPalette implements ColorPalette{
 		init();
 	}
 	public void init() {
+		colorMap = new HashMap<String,Color>();
 		red = Color.red;
 		green = Color.green;
 		blue = Color.blue;
@@ -30,6 +33,17 @@ public class AbstractColorPalette implements ColorPalette{
 		orange = Color.orange;
 		pink = Color.pink;
 		white = Color.white;
+		colorMap.put("red", red);
+		colorMap.put("green", green);
+		colorMap.put("blue", blue);
+		colorMap.put("black", black);
+		colorMap.put("cyan", cyan);
+		colorMap.put("gray", gray);
+		colorMap.put("lightgray", lightGray);
+		colorMap.put("magenta", magenta);
+		colorMap.put("orange", orange);
+		colorMap.put("pink", pink);
+		colorMap.put("white", white);
 	}
 	
 	public Color red() {
@@ -73,6 +87,9 @@ public class AbstractColorPalette implements ColorPalette{
 	}
 	public Color white() {
 		return white;
+	}
+	public HashMap<String,Color> colorMap(){
+		return this.colorMap;
 	}
 
 }

@@ -26,6 +26,6 @@ public abstract class AbstractParameter implements Parameter{
 		value=va;
 	}
 	public String toString() {
-		return "Name: " + name + " Value: " + value + " Info: " + info;
+		return "Name: " + name + " Info: " + info;
 	}
 }

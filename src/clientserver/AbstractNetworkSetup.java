@@ -36,7 +36,7 @@ public class AbstractNetworkSetup implements NetworkSetup{
 				writer.println("/createaccount;-a;(" + userFrame.id().name()+")");
 			}
 			writer.flush();
-			this.server = new ServerHandler(socketChannel,guiSetup);
+			this.server = new ServerHandler(socketChannel,guiSetup,userFrame);
 			pool.execute(this.server);
 		}catch(IOException e) {
 			online=false;
